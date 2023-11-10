@@ -7735,8 +7735,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                         var a = b.document,
                             d = e(c);
                         if (d) {
-                            a = a.$.defaultView.getSelection();
-                            a.type == "Caret" && a.anchorNode == d.$ && (f = 1);
+                            if (a.$.defaultView) {
+                                a = a.$.defaultView.getSelection();
+                                a.type == "Caret" && a.anchorNode == d.$ && (f = 1);
+                            } else {
+                                f = 1;
+                            }
                             g =
                                 d.getText();
                             d.setText(g.replace(/\u200B/g, ""))
@@ -7747,7 +7751,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                         if (d) {
                             d.setText(g);
                             if (f) {
-                                a.$.defaultView.getSelection().setPosition(d.$, d.getLength());
+                                if (a.$.defaultView) {
+                                    a.$.defaultView.getSelection().setPosition(d.$, d.getLength());
+                                }
                                 f = 0
                             }
                         }
